@@ -1,0 +1,74 @@
+<h1>Welcome to your user dashboard, <%=@user.fn%></h1>
+<h3><a href="/shoes">Main Store Page</a></h3>
+<h2>Sell a product</h2>
+<form action="/shoes/add_shoe" method="POST">
+	Product Name: <input type="text" name="add_product[product]"><br>
+	Price: $<input type="number" name="add_product[price]"><br>
+	<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+	<input type="submit" name="submit_button" value="Sell">
+</form>
+<%sales_value = 0%>
+<%buy_value = 0%>
+<h2>Your products that are not yet sold</h2>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Date Posted</th>
+		<th>Price</th>
+		<th>Action</th>
+	</tr>
+	<%@my_shoes.each do |m|%>
+		<%if not m.sales.any?%>
+			<tr>
+				<td><%=m.product%></td>
+				<td><%=m.created_at.strftime("%m-%d-%Y")%></td>
+				<td>$<%=m.price%></td>
+				<td><a href="/shoes/remove_shoe/<%=m.id%>">Remove</a></td>
+			</tr>
+		<%end%>
+	<%end%>
+</table>
+
+
+<h2>Sales!!!</h2>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Date Bought</th>
+		<th>Buyer</th>
+		<th>Amount</th>
+	</tr>
+	<%@my_shoes.each do |m|%>
+		<%if m.sales.any?%>
+			<tr>
+				<td><%=m.product%></td>
+				<td><%=m.sales.first.created_at.strftime("%m-%d-%Y")%></td>
+				<td><%=m.sales.first.user.fn%></td>
+				<td>$<%=m.price%></td>
+				<%sales_value += m.price%>
+			</tr>
+		<%end%>
+	<%end%>
+</table>
+<h4>Total Sales: $<%=sales_value%></h4>
+
+
+<h2>Purchases</h2>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Date Bought</th>
+		<th>Seller</th>
+		<th>Amount</th>
+	</tr>
+	<%@purchases.each do |p|%>
+			<tr>
+				<td><%=p.shoe.product%></td>
+				<td><%=p.created_at.strftime("%m-%d-%Y")%></td>
+				<td><%=p.shoe.user.fn%></td>
+				<td>$<%=p.shoe.price%></td>
+				<%buy_value += p.shoe.price%>
+			</tr>
+	<%end%>
+</table>
+<h4>Total purchases value: $<%=buy_value%></h4>

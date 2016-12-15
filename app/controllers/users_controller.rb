@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   		if user.valid?
   			user.save
   			session[:user_id] = user.id
-  			redirect_to '/'
+  			redirect_to '/shoes'
   		else
   			flash[:errors] = user.errors
   			redirect_to '/'
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   		user = User.find_by_email(receive_login[:email])
   		if user && user.authenticate(receive_login[:password])
   			session[:user_id] = user.id
-  			redirect_to '/'
+  			redirect_to '/shoes'
   		else
   			flash[:errors] = ["Email/Password combination is invalid"]
   			redirect_to :back 

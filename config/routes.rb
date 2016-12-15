@@ -11,5 +11,14 @@ Rails.application.routes.draw do
 
 	#users variable....
 
+	#shoes 
+	get '/shoes' => 'store#shoe_store'
+	post '/shoes/add_shoe' => 'store#add_shoe'
+	get '/dashboard/:id' => 'store#dashboard'
+
+	#shoes variable...	
+	get '/shoes/remove_shoe/:id' => 'store#remove_shoe'
+	get '/shoes/buy_shoe/:id' => 'store#buy_shoe'
+
 
 end

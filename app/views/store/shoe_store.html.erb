@@ -1,0 +1,29 @@
+<h1>Welcome to the Shoe Store!</h1>
+<h4><a href="/dashboard/<%=@user.id%>">Dashboard</a></h4>
+<h2>All Products</h2>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Seller</th>
+		<th>Date Posted</th>
+		<th>Price</th>
+		<th>Action</th>
+	</tr>
+	<%@shoes.each do |s|%>
+	<tr>
+		<%if not s.sales.any?%>
+			<td><%=s.product%></td>
+			<td><%=s.user.fn%> <%=s.user.ln%></td>
+			<td><%=s.created_at.strftime("%m-%d-%Y")%></td>
+			<td>$<%=s.price%></td>
+			<td>
+				<%if s.user.id == @user.id%>
+					Yours!
+				<%else%>
+					<a href="/shoes/buy_shoe/<%=s.id%>">Buy This!</a>
+				<%end%>
+			</td>
+		<%end%>
+	</tr>
+	<%end%>
+</table>
